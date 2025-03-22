@@ -2,20 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Force base styles */
-body {
-  @apply h-screen overflow-hidden bg-chatgpt-darker text-gray-100;
+/* Custom base styles */
+@layer base {
+  body {
+    @apply bg-background text-text-primary;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-full;
+  }
+
+  /* Typography */
+  h1 {
+    @apply text-2xl font-bold;
+  }
+
+  h2 {
+    @apply text-xl font-semibold;
+  }
+
+  a {
+    @apply text-primary hover:text-primary-hover;
+  }
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  @apply w-2;
-}
+/* Custom components */
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-hover transition-colors;
+  }
 
-::-webkit-scrollbar-track {
-  @apply bg-chatgpt-darker;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-chatgpt-dark rounded-full;
+  .input-field {
+    @apply w-full p-3 border border-border rounded-lg bg-background text-text-primary focus:outline-none focus:border-primary;
+  }
 }
