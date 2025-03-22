@@ -1,18 +1,24 @@
 module.exports = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx}",
-    "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        'chatgpt-gray': '#343541',
-        'chatgpt-dark-gray': '#202123',
-        'chatgpt-light-gray': '#40414F',
-        'chatgpt-border': '#555767',
-        'chatgpt-green': '#19C37D',
+        'primary': '#10A37F',
+        'primary-hover': '#0D8466',
+        'secondary': '#343541',
+        'secondary-dark': '#202123',
+        'border-light': '#565869',
+        'message-ai': '#444654',
+        'message-user': '#343541',
+      },
+      fontFamily: {
+        sans: ['"Segoe UI"', 'Roboto', 'sans-serif'],
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }
