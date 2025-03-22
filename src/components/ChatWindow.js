@@ -9,6 +9,7 @@ export default function ChatWindow() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  // Load conversation history from local storage
   useEffect(() => {
     const savedMessages = loadConversation()
     if (savedMessages) setMessages(savedMessages)
@@ -20,7 +21,7 @@ export default function ChatWindow() {
     setError(null)
     const userMessage = { role: 'user', content: text }
     const newMessages = [...messages, userMessage]
-    
+
     try {
       setIsLoading(true)
       setMessages(newMessages)
@@ -38,8 +39,8 @@ export default function ChatWindow() {
 
       const data = await res.json()
       const botMessage = { role: 'bot', content: data.reply }
-      
-      setMessages(prev => {
+
+      setMessages((prev) => {
         const updated = [...prev, botMessage]
         saveConversation(updated)
         return updated
@@ -47,26 +48,38 @@ export default function ChatWindow() {
     } catch (err) {
       console.error('Chat error:', err)
       setError('Failed to get response. Please try again.')
-      setMessages(prev => prev.filter(m => m.role !== 'error'))
+      setMessages((prev) => prev.filter((m) => m.role !== 'error'))
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="flex flex-col h-screen bg-chatgpt-dark-gray">
+    <div className="flex flex-col h-screen bg-secondary-dark text-gray-100">
+      {/* Chat Header */}
+      <header className="p-4 border-b border-border-light">
+        <h1 className="text-xl font-bold text-center">Advanced AI Chatbot</h1>
+      </header>
+
+      {/* Message List */}
       <div className="flex-1 overflow-y-auto">
         <MessageList messages={messages} />
         {isLoading && <TypingIndicator />}
         {error && (
           <div className="p-4 text-red-500 text-center">
-            {error} <button onClick={() => setError(null)} className="ml-2 text-white">×</button>
+            {error}{' '}
+            <button
+              onClick={() => setError(null)}
+              className="ml-2 text-white"
+            >
+              ×
+            </button>
           </div>
         )}
       </div>
-      <div className="border-t border-chatgpt-border">
-        <MessageInput onSend={sendMessage} isLoading={isLoading} />
-      </div>
+
+      {/* Message Input */}
+      <MessageInput onSend={sendMessage} isLoading={isLoading} />
     </div>
   )
 }
