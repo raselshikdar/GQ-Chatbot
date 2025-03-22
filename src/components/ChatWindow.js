@@ -12,9 +12,7 @@ export default function ChatWindow() {
   // Load conversation history from local storage
   useEffect(() => {
     const savedMessages = loadConversation()
-    if (savedMessages) {
-      setMessages(savedMessages)
-    }
+    if (savedMessages) setMessages(savedMessages)
   }, [])
 
   const sendMessage = async (text) => {
@@ -35,9 +33,7 @@ export default function ChatWindow() {
         body: JSON.stringify({ message: text }),
       })
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`)
-      }
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
 
       const data = await res.json()
       const botMessage = { role: 'bot', content: data.reply }
@@ -57,30 +53,36 @@ export default function ChatWindow() {
 
   return (
     <div className="flex flex-col h-screen bg-secondary-dark text-gray-100">
-      {/* Chat Header */}
-      <header className="p-4 border-b border-border-light">
-        <h1 className="text-xl font-bold text-center">Advanced AI Chatbot</h1>
+      {/* Header */}
+      <header className="p-4 border-b border-border-light bg-secondary-dark">
+        <h1 className="text-xl font-bold text-center">GQ Chatbot</h1>
       </header>
 
-      {/* Message List */}
-      <div className="flex-1 overflow-y-auto">
-        <MessageList messages={messages} />
-        {isLoading && <TypingIndicator />}
-        {error && (
-          <div className="p-4 text-red-500 text-center">
-            {error}{' '}
-            <button
-              onClick={() => setError(null)}
-              className="ml-2 text-white"
-            >
-              ×
-            </button>
-          </div>
-        )}
-      </div>
+      {/* Main Chat Area */}
+      <main className="flex-1 overflow-y-auto p-4">
+        <div className="max-w-3xl mx-auto">
+          <MessageList messages={messages} />
+          {isLoading && <TypingIndicator />}
+          {error && (
+            <div className="p-4 text-red-500 text-center">
+              {error}{' '}
+              <button
+                onClick={() => setError(null)}
+                className="ml-2 text-white"
+              >
+                ×
+              </button>
+            </div>
+          )}
+        </div>
+      </main>
 
-      {/* Message Input */}
-      <MessageInput onSend={sendMessage} isLoading={isLoading} />
+      {/* Input Area */}
+      <footer className="border-t border-border-light bg-secondary-dark p-4">
+        <div className="max-w-3xl mx-auto">
+          <MessageInput onSend={sendMessage} isLoading={isLoading} />
+        </div>
+      </footer>
     </div>
   )
 }
