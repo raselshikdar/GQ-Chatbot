@@ -2,10 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom base styles */
 @layer base {
   body {
     @apply bg-secondary-dark text-gray-100;
     height: 100vh;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+  }
+
+  h1 {
+    @apply text-2xl font-bold;
+  }
+
+  h2 {
+    @apply text-xl font-semibold;
+  }
+
+  a {
+    @apply text-primary hover:text-primary-hover;
   }
 
   /* Scrollbar styling */
@@ -35,5 +49,36 @@
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
+  }
+}
+
+/* Custom component styles */
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-hover transition-colors;
+  }
+
+  .input-field {
+    @apply w-full p-2 border border-border-light rounded-lg bg-secondary-dark text-gray-100 focus:outline-none focus:border-primary;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #343541 #202123;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-secondary-dark;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-secondary rounded-full;
   }
 }
