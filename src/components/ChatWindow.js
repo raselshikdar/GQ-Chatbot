@@ -1,38 +1,43 @@
 // src/components/ChatWindow.js
-import { useState } from "react";
-import MessageList from "./MessageList";
-import MessageInput from "./MessageInput";
+
+import { useState } from 'react';
+import MessageInput from './MessageInput';
+import MessageList from './MessageList';
 
 export default function ChatWindow() {
   const [messages, setMessages] = useState([]);
 
-  const sendMessage = async (text) => {
-    if (!text.trim()) return;
-
-    const userMessage = { role: "user", content: text };
-    setMessages((prev) => [...prev, userMessage]);
+  const sendMessage = async (message) => {
+    const newMessage = { text: message, type: 'user' };
+    setMessages([...messages, newMessage]);
 
     try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text }),
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message }),
       });
 
       const data = await res.json();
-      const botMessage = { role: "bot", content: data.reply || "Error: No response" };
-      setMessages((prev) => [...prev, botMessage]);
+
+      if (data.response) {
+        const botMessage = { text: data.response, type: 'bot' };
+        setMessages([...messages, newMessage, botMessage]);
+      } else {
+        const botMessage = { text: 'Error: No response', type: 'bot' };
+        setMessages([...messages, newMessage, botMessage]);
+      }
     } catch (error) {
-      console.error("Chat error:", error);
-      setMessages((prev) => [...prev, { role: "bot", content: "Error contacting API" }]);
+      console.error('Error:', error);
+      const botMessage = { text: 'Error: Something went wrong!', type: 'bot' };
+      setMessages([...messages, newMessage, botMessage]);
     }
   };
 
   return (
-    <div className="flex flex-col bg-white shadow-xl rounded-lg w-full max-w-2xl">
-      <header className="bg-blue-600 text-white py-4 px-6 rounded-t-lg">
-        <h1 className="text-xl font-bold">Advanced AI Chatbot</h1>
-      </header>
+    <div className="chat-window">
       <MessageList messages={messages} />
       <MessageInput onSend={sendMessage} />
     </div>
