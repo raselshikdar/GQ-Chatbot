@@ -12,7 +12,9 @@ export default function ChatWindow() {
   // Load conversation history from local storage
   useEffect(() => {
     const savedMessages = loadConversation()
-    if (savedMessages) setMessages(savedMessages)
+    if (savedMessages) {
+      setMessages(savedMessages)
+    }
   }, [])
 
   const sendMessage = async (text) => {
@@ -48,7 +50,6 @@ export default function ChatWindow() {
     } catch (err) {
       console.error('Chat error:', err)
       setError('Failed to get response. Please try again.')
-      setMessages((prev) => prev.filter((m) => m.role !== 'error'))
     } finally {
       setIsLoading(false)
     }
