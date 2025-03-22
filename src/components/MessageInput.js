@@ -1,8 +1,7 @@
-// src/components/MessageInput.js
 import { useState } from 'react'
 
 export default function MessageInput({ onSend, isLoading }) {
-  const [input, setInput] = useState('') // Initialize input state
+  const [input, setInput] = useState('')
 
   const handleSend = () => {
     if (!input.trim() || isLoading) return
@@ -22,9 +21,7 @@ export default function MessageInput({ onSend, isLoading }) {
       <div className="max-w-3xl mx-auto pt-2 pb-4 px-4">
         <div className="flex items-end gap-2 relative">
           <textarea
-            className="w-full resize-none bg-secondary-dark border border-border-light rounded-xl 
-              py-3.5 pl-5 pr-14 text-gray-100 placeholder-gray-400 focus:outline-none 
-              focus:border-primary max-h-64 overflow-y-auto"
+            className="w-full resize-none bg-secondary-dark border border-border-light rounded-xl py-3.5 pl-5 pr-14 text-gray-100 placeholder-gray-400 focus:outline-none focus:border-primary max-h-64 overflow-y-auto"
             placeholder="Send a message..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -35,8 +32,7 @@ export default function MessageInput({ onSend, isLoading }) {
           <button
             onClick={handleSend}
             disabled={isLoading}
-            className="absolute right-3 bottom-3.5 p-1 rounded-md hover:bg-secondary 
-              disabled:hover:bg-transparent disabled:opacity-40"
+            className="absolute right-3 bottom-3.5 p-1 rounded-md hover:bg-secondary disabled:hover:bg-transparent disabled:opacity-40"
           >
             <svg
               stroke="currentColor"
