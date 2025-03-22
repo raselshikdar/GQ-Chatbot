@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import MessageList from './MessageList'
 import MessageInput from './MessageInput'
 import TypingIndicator from './TypingIndicator'
@@ -8,12 +8,20 @@ export default function ChatWindow() {
   const [messages, setMessages] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+  const messagesEndRef = useRef(null) // Ref for the end of the message list
 
   // Load conversation history
   useEffect(() => {
     const savedMessages = loadConversation()
     if (savedMessages) setMessages(savedMessages)
   }, [])
+
+  // Auto-scroll to the bottom when messages or loading state changes
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages, isLoading]) // Trigger on messages or loading state change
 
   const sendMessage = async (text) => {
     if (!text.trim() || isLoading) return
@@ -87,6 +95,9 @@ export default function ChatWindow() {
               </button>
             </div>
           )}
+
+          {/* Empty div for auto-scroll */}
+          <div ref={messagesEndRef} />
         </div>
       </main>
 
