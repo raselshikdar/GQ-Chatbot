@@ -9,66 +9,42 @@ export default function ChatWindow() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  // Load conversation history from local storage
+  // Initialize with empty array if no messages
   useEffect(() => {
-    const savedMessages = loadConversation()
-    if (savedMessages) setMessages(savedMessages)
+    const saved = loadConversation() || []
+    setMessages(saved)
   }, [])
 
-  const sendMessage = async (text) => {
-    if (!text.trim() || isLoading) return
-
-    setError(null)
-    const userMessage = { role: 'user', content: text }
-    const newMessages = [...messages, userMessage]
-
-    try {
-      setIsLoading(true)
-      setMessages(newMessages)
-      saveConversation(newMessages)
-
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text }),
-      })
-
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
-
-      const data = await res.json()
-      const botMessage = { role: 'bot', content: data.reply }
-
-      setMessages((prev) => {
-        const updated = [...prev, botMessage]
-        saveConversation(updated)
-        return updated
-      })
-    } catch (err) {
-      console.error('Chat error:', err)
-      setError('Failed to get response. Please try again.')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   return (
-    <div className="flex flex-col h-screen bg-secondary-dark text-gray-100">
+    <div className="flex flex-col h-screen bg-[#343541]">
       {/* Header */}
-      <header className="p-4 border-b border-border-light bg-secondary-dark">
-        <h1 className="text-xl font-bold text-center">GQ Chatbot</h1>
+      <header className="sticky top-0 z-10 bg-[#343541] border-b border-[#40414F]">
+        <div className="max-w-3xl mx-auto p-4">
+          <h1 className="text-lg font-semibold text-gray-200 text-center">
+            AI Chat Assistant
+          </h1>
+        </div>
       </header>
 
-      {/* Main Chat Area */}
-      <main className="flex-1 overflow-y-auto p-4">
-        <div className="max-w-3xl mx-auto">
+      {/* Main Content Area */}
+      <main className="flex-1 overflow-y-auto">
+        <div className="max-w-3xl mx-auto p-4">
           <MessageList messages={messages} />
-          {isLoading && <TypingIndicator />}
+          
+          {/* Loading State */}
+          {isLoading && (
+            <div className="p-4">
+              <TypingIndicator />
+            </div>
+          )}
+
+          {/* Error State */}
           {error && (
-            <div className="p-4 text-red-500 text-center">
-              {error}{' '}
-              <button
+            <div className="p-4 mb-4 text-red-400 bg-red-900/20 rounded-lg">
+              {error}
+              <button 
                 onClick={() => setError(null)}
-                className="ml-2 text-white"
+                className="ml-3 text-gray-300 hover:text-white"
               >
                 ×
               </button>
@@ -78,11 +54,14 @@ export default function ChatWindow() {
       </main>
 
       {/* Input Area */}
-      <footer className="border-t border-border-light bg-secondary-dark p-4">
-        <div className="max-w-3xl mx-auto">
-          <MessageInput onSend={sendMessage} isLoading={isLoading} />
+      <div className="sticky bottom-0 bg-gradient-to-b from-transparent to-[#343541]/80">
+        <div className="max-w-3xl mx-auto p-4 pt-6">
+          <MessageInput onSend={() => {}} isLoading={false} />
+          <p className="text-xs text-center text-gray-400 mt-3">
+            AI may produce inaccurate information
+          </p>
         </div>
-      </footer>
+      </div>
     </div>
   )
 }
