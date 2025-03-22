@@ -1,24 +1,30 @@
-// src/components/MessageList.js
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 export default function MessageList({ messages }) {
   return (
-    <div className="space-y-4">
-      {messages.map((msg, idx) => (
+    <div className="max-w-3xl mx-auto p-4 space-y-4">
+      {messages.map((msg, index) => (
         <div
-          key={idx}
-          className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+          key={index}
+          className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
         >
           <div
-            className={`px-4 py-2 rounded-lg max-w-xs break-words ${
-              msg.sender === 'user'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-800'
+            className={`max-w-[90%] rounded-lg p-4 ${
+              msg.role === 'user'
+                ? 'bg-chatgpt-light-gray text-white'
+                : 'bg-chatgpt-gray text-gray-100'
             }`}
           >
-            {msg.text}
+            <Markdown
+              remarkPlugins={[remarkGfm]}
+              className="prose prose-invert prose-sm"
+            >
+              {msg.content}
+            </Markdown>
           </div>
         </div>
       ))}
     </div>
-  );
+  )
 }
