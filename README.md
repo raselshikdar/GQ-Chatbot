@@ -1,33 +1,45 @@
-# **GQ-Chatbot**
+# **GQ-Chatbot** 🤖
 
-GQ-Chatbot is a free, AI-powered chatbot built using Groq’s advanced language models. It provides fast, intelligent responses, offering a seamless conversational experience. Deployed on Vercel for optimal performance, it features a modern UI/UX and is open-source for customization.
-
----
-
-## **🔹 Features**
-
-- **Fast & Intelligent:** Powered by Groq's AI models for real-time, context-aware responses.
-- **Modern UI/UX:** Clean, responsive, and minimal design using Next.js and Tailwind CSS.
-- **100% Free:** Powered by a free API key from Groq, without any paid plans or subscriptions.
-- **Open-Source:** Fully customizable and open for contributions.
-- **Deployable on Vercel:** Easy one-click deployment for fast hosting.
+GQ-Chatbot is an AI-powered conversational assistant built using Groq's lightning-fast language models. Featuring a clean light-mode interface and intelligent interactions, it offers seamless conversations with automatic scrolling, markdown support, and persistent chat history. Deployed on Vercel for optimal performance.
 
 ---
 
-## **🔧 Getting Started**
+## **✨ Enhanced Features**
+
+- **Smart Auto-Scroll**: Automatically scrolls to new messages and responses
+- **Light Mode Design**: Clean, modern UI with optimal readability
+- **Markdown Support**: Renders code blocks, lists, and formatted text
+- **Conversation Persistence**: Local storage saves chat history
+- **Error Handling**: User-friendly error messages with retry option
+- **Typing Indicator**: Visual feedback during response generation
+- **Responsive Design**: Perfectly adapts to mobile & desktop screens
+- **One-Click Deployment**: Ready for Vercel/GitHub Pages hosting
+
+---
+
+## **🛠️ Tech Stack**
+
+- **Framework**: Next.js 14
+- **Styling**: Tailwind CSS + CSS Modules
+- **AI Provider**: Groq API
+- **Markdown**: react-markdown + remark-gfm
+- **State Management**: React Hooks
+- **Deployment**: Vercel
+
+---
+
+## **🚀 Quick Start**
 
 ### **Prerequisites**
+- Node.js 18.x+
+- npm 9.x+
+- Groq API Key ([Get Free Key](https://groq.com/))
 
-Make sure you have the following installed:
-- **Node.js** (version 14.x or higher)
-- **npm** (Node Package Manager)
-
-### **Installation**
-
-1. Clone this repository to your local machine:
-    ```bash
-    git clone https://github.com/raselshikdar/GQ-Chatbot.git
-    cd GQ-Chatbot
+### **Local Setup**
+1. Clone repository:
+   ```bash
+   git clone https://github.com/raselshikdar/GQ-Chatbot.git
+   cd GQ-Chatbot
     ```
 
 2. Install the required dependencies:
