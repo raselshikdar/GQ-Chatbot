@@ -3,26 +3,26 @@
 import { useState } from 'react';
 
 export default function MessageInput({ onSend }) {
-  const [inputValue, setInputValue] = useState('');
+  const [input, setInput] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSend = (e) => {
     e.preventDefault();
-    if (inputValue.trim() !== '') {
-      onSend(inputValue);
-      setInputValue('');
+    if (input.trim()) {
+      onSend(input);
+      setInput('');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="message-input">
+    <form onSubmit={handleSend} className="flex">
       <input
         type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Type a message..."
-        className="input-field"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Type your message..."
+        className="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
-      <button type="submit" className="send-btn">
+      <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-r-lg">
         Send
       </button>
     </form>
