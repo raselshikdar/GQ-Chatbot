@@ -1,6 +1,22 @@
+// src/components/MessageInput.js
+import { useState } from 'react'
+
 export default function MessageInput({ onSend, isLoading }) {
-  // ... previous logic
-  
+  const [input, setInput] = useState('') // Initialize input state
+
+  const handleSend = () => {
+    if (!input.trim() || isLoading) return
+    onSend(input)
+    setInput('')
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSend()
+    }
+  }
+
   return (
     <div className="absolute bottom-0 left-0 w-full border-t border-border-light bg-secondary-dark">
       <div className="max-w-3xl mx-auto pt-2 pb-4 px-4">
