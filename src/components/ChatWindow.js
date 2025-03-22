@@ -1,55 +1,72 @@
-// src/components/ChatWindow.js
-
-import { useState, useEffect, useRef } from 'react';
-import MessageList from './MessageList';
-import MessageInput from './MessageInput';
+import { useState, useEffect } from 'react'
+import MessageList from './MessageList'
+import MessageInput from './MessageInput'
+import TypingIndicator from './TypingIndicator'
+import { saveConversation, loadConversation } from '../utils/storage'
 
 export default function ChatWindow() {
-  const [messages, setMessages] = useState([]);
-  const messagesEndRef = useRef(null);
+  const [messages, setMessages] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  // Auto-scroll to the bottom when messages update
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    const savedMessages = loadConversation()
+    if (savedMessages) setMessages(savedMessages)
+  }, [])
 
   const sendMessage = async (text) => {
-    if (!text.trim()) return;
+    if (!text.trim() || isLoading) return
 
-    // Append user's message
-    const userMsg = { text, sender: 'user' };
-    setMessages(prev => [...prev, userMsg]);
-
+    setError(null)
+    const userMessage = { role: 'user', content: text }
+    const newMessages = [...messages, userMessage]
+    
     try {
+      setIsLoading(true)
+      setMessages(newMessages)
+      saveConversation(newMessages)
+
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
-      });
-      const data = await res.json();
+        body: JSON.stringify({ message: text }),
+      })
 
-      // Append bot's response or error message
-      const botMsg = { text: data.response || "Error: No response", sender: 'bot' };
-      setMessages(prev => [...prev, botMsg]);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+
+      const data = await res.json()
+      const botMessage = { role: 'bot', content: data.reply }
+      
+      setMessages(prev => {
+        const updated = [...prev, botMessage]
+        saveConversation(updated)
+        return updated
+      })
     } catch (err) {
-      console.error(err);
-      const botMsg = { text: "Error: Something went wrong!", sender: 'bot' };
-      setMessages(prev => [...prev, botMsg]);
+      console.error('Chat error:', err)
+      setError('Failed to get response. Please try again.')
+      setMessages(prev => prev.filter(m => m.role !== 'error'))
+    } finally {
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
-    <div className="flex flex-col bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg w-full max-w-2xl h-[80vh]">
-      <header className="bg-blue-600 text-white py-4 px-6 rounded-t-xl">
-        <h1 className="text-xl font-bold">GQ-Chatbot</h1>
-      </header>
-      <div className="flex-1 overflow-y-auto p-6">
+    <div className="flex flex-col h-screen bg-chatgpt-dark-gray">
+      <div className="flex-1 overflow-y-auto">
         <MessageList messages={messages} />
-        <div ref={messagesEndRef} />
+        {isLoading && <TypingIndicator />}
+        {error && (
+          <div className="p-4 text-red-500 text-center">
+            {error} <button onClick={() => setError(null)} className="ml-2 text-white">×</button>
+          </div>
+        )}
       </div>
-      <div className="border-t border-gray-200 p-4">
-        <MessageInput onSend={sendMessage} />
+      <div className="border-t border-chatgpt-border">
+        <MessageInput onSend={sendMessage} isLoading={isLoading} />
       </div>
     </div>
-  );
+  )
 }
