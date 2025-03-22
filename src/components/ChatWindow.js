@@ -9,7 +9,7 @@ export default function ChatWindow() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  // Load conversation history from local storage
+  // Load conversation history
   useEffect(() => {
     const savedMessages = loadConversation()
     if (savedMessages) setMessages(savedMessages)
@@ -52,11 +52,11 @@ export default function ChatWindow() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-[#343541]">
+    <div className="flex flex-col h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[#343541] border-b border-[#565869]">
+      <header className="sticky top-0 z-10 bg-background border-b border-border shadow-sm">
         <div className="max-w-3xl mx-auto px-4 py-3">
-          <h1 className="text-lg font-semibold text-[#ECECF1] text-center">
+          <h1 className="text-lg font-semibold text-text-primary text-center">
             AI Assistant
           </h1>
         </div>
@@ -77,11 +77,11 @@ export default function ChatWindow() {
 
           {/* Error Message */}
           {error && (
-            <div className="p-3 bg-[#FEE2E2] text-[#B91C1C] rounded-lg flex items-center justify-between">
+            <div className="p-3 bg-error-bg text-error-text rounded-lg flex items-center justify-between">
               <span>{error}</span>
               <button
                 onClick={() => setError(null)}
-                className="text-[#B91C1C] hover:text-[#991B1B]"
+                className="text-error-text hover:text-red-800"
               >
                 ×
               </button>
@@ -91,12 +91,12 @@ export default function ChatWindow() {
       </main>
 
       {/* Input Section */}
-      <div className="sticky bottom-0 bg-gradient-to-b from-transparent via-[#343541]/90 to-[#343541]">
+      <div className="sticky bottom-0 bg-background border-t border-border">
         <div className="max-w-3xl mx-auto px-4 py-6">
-          <div className="bg-[#40414F] rounded-xl shadow-lg">
+          <div className="bg-background-secondary rounded-lg shadow-sm">
             <MessageInput onSend={sendMessage} isLoading={isLoading} />
           </div>
-          <p className="text-center text-xs text-[#ACACBE] mt-3">
+          <p className="text-center text-xs text-text-secondary mt-3">
             AI may sometimes provide inaccurate information
           </p>
         </div>
