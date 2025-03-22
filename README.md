@@ -6,6 +6,10 @@ GQ-Chatbot is an AI-powered conversational assistant built using Groq's lightnin
 
 ## **✨ Enhanced Features**
 
+- **Fast & Intelligent:** Powered by Groq's AI models for real-time, context-aware responses.
+- **Modern UI/UX:** Clean, responsive, and minimal design using Next.js and Tailwind CSS.
+- **100% Free:** Powered by a free API key from Groq, without any paid plans or subscriptions.
+- **Open-Source:** Fully customizable and open for contributions.
 - **Smart Auto-Scroll**: Automatically scrolls to new messages and responses
 - **Light Mode Design**: Clean, modern UI with optimal readability
 - **Markdown Support**: Renders code blocks, lists, and formatted text
