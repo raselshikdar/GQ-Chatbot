@@ -5,16 +5,23 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Direct ChatGPT color codes
-        'chatgpt-dark': '#343541',
-        'chatgpt-darker': '#202123',
-        'chatgpt-border': '#40414F',
-        'chatgpt-green': '#19C37D',
-        'chatgpt-message-ai': '#444654'
+        // Light mode color palette
+        'primary': '#10A37F', // Green for accents
+        'primary-hover': '#0D8466', // Darker green for hover states
+        'background': '#FFFFFF', // White background
+        'background-secondary': '#F9FAFB', // Light gray for secondary backgrounds
+        'text-primary': '#1F2937', // Dark gray for primary text
+        'text-secondary': '#6B7280', // Gray for secondary text
+        'border': '#E5E7EB', // Light border color
+        'error-bg': '#FEE2E2', // Light red for error backgrounds
+        'error-text': '#B91C1C', // Dark red for error text
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'], // Modern sans-serif font
       },
     },
   },
   plugins: [
-    require('@tailwindcss/typography')
+    require('@tailwindcss/typography'), // For Markdown formatting
   ],
 }
