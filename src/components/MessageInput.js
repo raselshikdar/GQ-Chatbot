@@ -1,30 +1,53 @@
-// src/components/MessageInput.js
+import { useState, useEffect } from 'react'
 
-import { useState } from 'react';
+export default function MessageInput({ onSend, isLoading }) {
+  const [input, setInput] = useState('')
 
-export default function MessageInput({ onSend }) {
-  const [input, setInput] = useState('');
+  const handleSend = () => {
+    if (!input.trim() || isLoading) return
+    onSend(input)
+    setInput('')
+  }
 
-  const handleSend = (e) => {
-    e.preventDefault();
-    if (input.trim()) {
-      onSend(input);
-      setInput('');
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSend()
     }
-  };
+  }
 
   return (
-    <form onSubmit={handleSend} className="flex">
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Type your message..."
-        className="flex-grow px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-      />
-      <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-r-lg">
-        Send
-      </button>
-    </form>
-  );
+    <div className="p-4 max-w-3xl mx-auto">
+      <div className="flex items-center gap-2 bg-chatgpt-gray rounded-lg border border-chatgpt-border">
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Send a message..."
+          className="flex-1 bg-transparent text-white p-4 resize-none outline-none"
+          rows={1}
+          disabled={isLoading}
+        />
+        <button
+          onClick={handleSend}
+          disabled={isLoading}
+          className="p-2 mr-2 rounded-md hover:bg-chatgpt-light-gray disabled:opacity-50"
+        >
+          <svg
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            className="w-6 h-6 text-chatgpt-green"
+            height="1em"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M22 2L11 13"></path>
+            <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  )
 }
