@@ -1,0 +1,23 @@
+# Node.js dependencies
+/node_modules/
+
+# Environment variables file
+.env.local
+
+# Log files
+*.log
+
+# Tailwind CSS output
+/.next/
+/out/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Vercel deployment settings
+.vercel/
+
+# Editor specific files
+.idea/
+.vscode/
